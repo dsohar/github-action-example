@@ -1,0 +1,38 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  push_test:
+    if: github.event_name == 'push' && github.ref_name == 'dev'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Test
+        run: echo "Running push Tests"
+
+  push_build:
+    needs: push_test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Build
+        run: echo "Running push Build"
+
+  pr_test:
+    if: github.event_name == 'pull_request' && github.base_ref == 'main'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Test
+        run: echo "Running PR Tests"
+
+  pr_build:
+    needs: pr_test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Build
+        run: echo "Running PR Build"
